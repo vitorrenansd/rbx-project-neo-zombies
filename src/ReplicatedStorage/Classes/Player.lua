@@ -6,56 +6,42 @@ function Player.new(player)
 	local self = setmetatable({}, Player)
 	
 	self.player = player
-	
+	self.SFX = game.ReplicatedStorage.Sounds.SFX
 	self.SoundClass = require(game.ReplicatedStorage.Classes.Sound)
 	self.sound = self.SoundClass.new()
-	
-	self.SFX = game.ReplicatedStorage.Sounds.SFX
 	
 	return self
 end
 
-
--- Metodo para lockar camera em primeira pessoa (usa remoteevent chamado startGame)
+-- Metodo para lockar camera em primeira pessoa (usado no remoteevent chamado startGame)
 function Player:lockFirstPerson()
-	
 	local player = game.Players.LocalPlayer
 	player.CameraMode = Enum.CameraMode.LockFirstPerson
-	
 end
-
 
 -- Metodo para kickar o player ao morrer
 function Player:kickWhenDie()
-	
 	self.player.CharacterAdded:Connect(function(character)
-		
 		local humanoid = character:WaitForChild("Humanoid")
-		
 		humanoid.Died:Connect(function()
 			-- +1 no leaderboard
 			self.player.leaderstats.Deaths.Value = self.player.leaderstats.Deaths.Value + 1
-			
+			-- Som do bob esponja
 			self.sound:playSound(self.SFX.winSound, 2, false)
-			self.player:Kick("You died! Looks like you're not cut out for this. Want to try again?")
-			
+			self.player:Kick("You died! Looks like you're not cut out for this. Want to try again?")		
 		end)
 	end)
 	
 	if self.player.Character then
 		self.player.CharacterAdded:Fire(self.player.Character)
 	end
-	
 end
 
-	
 function Player:createLeaderboard()
-	
 	-- Cria a pasta leaderstats
 	local leaderstats = Instance.new("Folder")
 	leaderstats.Name = "leaderstats"
 	leaderstats.Parent = self.player
-
 
 	-- Cria o valor Deaths e Minutes
 	local deaths = Instance.new("IntValue")
@@ -67,13 +53,10 @@ function Player:createLeaderboard()
 	minutes.Name = "Minutes"
 	minutes.Value = 0 -- Inicia com 0 minutos
 	minutes.Parent = leaderstats
-	
 end
-	
 	
 -- Metodo para lanterna no player
 function Player:createFlashlight(brightness, range, angle)
-	
 	local character = self.player.Character or self.player.CharacterAdded:Wait()
 	local head = character:WaitForChild("Head")
 	
@@ -89,8 +72,7 @@ function Player:createFlashlight(brightness, range, angle)
 	light.Brightness = brightness
 	light.Range = range
 	light.Angle = angle
-	light.Color = Color3.fromRGB(0, 251, 255)
-	
+	light.Color = Color3.fromRGB(0, 255, 255)
 	
 	-- Attachments necessarios pra alinhar a luz em head
 	local lightAttachment = Instance.new("Attachment", lightPart)
@@ -104,19 +86,15 @@ function Player:createFlashlight(brightness, range, angle)
 	alignOrientation.Attachment0 = lightAttachment
 	alignOrientation.Responsiveness = 200
 	
-	
 	-- Atualiza a luz de acordo com a camera
 	local camera = workspace.CurrentCamera
 	local connection = camera:GetPropertyChangedSignal("CFrame"):Connect(function()
 		alignOrientation.CFrame = camera.CFrame.Rotation
 	end)
-	
 end
-
 
 -- Metodo para correr com LShift
 function Player:shiftToRun(boostedSpeed)
-	
 	local UserInputService = game:GetService("UserInputService")
 	local character = self.player.Character or self.player.CharacterAdded:Wait()
 	local humanoid = character:WaitForChild("Humanoid")
@@ -134,7 +112,6 @@ function Player:shiftToRun(boostedSpeed)
 			humanoid.WalkSpeed = 16 -- Volta a velocidade normal
 		end
 	end)
-
 end
 
 return Player

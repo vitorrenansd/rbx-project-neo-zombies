@@ -27,7 +27,6 @@ function Zombie.new(model, mapa, zombiesFolder, whitelistedNames)
 	task.defer(function()
 		self:verifyDestroy()
 	end)
-	
 
 	return self
 end
@@ -118,13 +117,11 @@ function Zombie:playAttackSound()
 	-- Randomiza o som de ataque, escolhendo um da lista
 	local randomSound = soundList[math.random(1, #soundList)]
 	self.sound:playSound(randomSound, 1, false)
-	
 end
 
 
 -- Metodo para excluir zumbi caso morto
 function Zombie:verifyDestroy()
-	
 	if self.isAlive.Value == false then return end 
 	
 	-- Quando morto, inicia:
@@ -136,8 +133,6 @@ function Zombie:verifyDestroy()
 		self.model:Destroy()
 
 	end)
-
 end
-
 
 return Zombie

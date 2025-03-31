@@ -8,10 +8,8 @@ function Sound.new()
 	return self
 end
 
-
 -- Metodo pra tocar sons, qualquer som
 function Sound:playSound(location, volume, looped)
-	
 	if not location then
 		warn("Sound not found: " .. tostring(location))
 		return
@@ -22,7 +20,6 @@ function Sound:playSound(location, volume, looped)
 		return
 	end
 	
-	
 	-- Clona o som para criar uma instancia independente
 	local sound = location:Clone()
 	sound.Parent = workspace.ActiveSounds
@@ -31,17 +28,13 @@ function Sound:playSound(location, volume, looped)
 	
 	sound:Play()
 
-
 	-- Exclui apos o uso, caso nao estiver em loop
 	if not looped then
-
 		sound.Ended:Connect(function()
 			sound:Destroy()
 		end)
-
 	end
 
 end
-
 
 return Sound

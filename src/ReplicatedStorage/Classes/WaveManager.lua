@@ -29,7 +29,6 @@ function WaveManager.new(map, config, zombieModels, player)
 	return self
 end
 
-
 -- Método para spawnar zumbis
 function WaveManager:createZombies(waveAtual, numZombies)
 	local zombiesPerWave = {}
@@ -87,7 +86,6 @@ function WaveManager:createZombies(waveAtual, numZombies)
 	end
 end
 
-
 -- Metodo para criar nova wave
 function WaveManager:createNewWave()
 	self.canStartNewWave = false
@@ -107,7 +105,6 @@ function WaveManager:createNewWave()
 
 	self.canStartNewWave = true
 end
-
 
 -- Loop para criar waves e atualizar HUD de zumbis vivos
 function WaveManager:startWaveLoop()
@@ -134,6 +131,5 @@ function WaveManager:startWaveLoop()
 		end
 	end
 end
-
 
 return WaveManager
