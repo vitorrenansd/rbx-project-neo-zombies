@@ -1,0 +1,36 @@
+{
+  "name": "rbx-project-neo-zombies",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "Classes": {
+        "$path": "src/ReplicatedStorage/Classes"
+      }
+    },
+
+    "ServerScriptService": {
+      "Game": {
+        "$path": "src/ServerScriptService/Game"
+      },
+      "Weapon": {
+        "$path": "src/ServerScriptService/Weapon"
+      }
+    },
+
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "$path": "src/StarterPlayer/StarterPlayerScripts"
+      },
+      "StarterCharacterScripts": {
+        "$path": "src/StarterPlayer/StarterCharacterScripts"
+      }
+    },
+    
+    "Workspace": {
+      "$properties": {
+        "FilteringEnabled": true
+      }
+    }
+  }
+}
