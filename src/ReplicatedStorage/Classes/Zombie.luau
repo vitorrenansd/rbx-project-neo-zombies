@@ -24,9 +24,7 @@ function Zombie.new(model, mapa, zombiesFolder, whitelistedNames)
 	self.sound = self.SoundClass.new()
 	
 	
-	task.defer(function()
-		self:verifyDestroy()
-	end)
+	self:verifyDestroy()
 
 	return self
 end
@@ -122,16 +120,22 @@ end
 
 -- Metodo para excluir zumbi caso morto
 function Zombie:verifyDestroy()
-	if self.isAlive.Value == false then return end 
-	
-	-- Quando morto, inicia:
-	self.humanoid.Died:Connect(function() 
-		-- Altera a variável isAlive para FALSO
+	if self.humanoid.Health <= 0 or self.isAlive.Value == false then
 		self.isAlive.Value = false
-		-- Aguarda 1 segundo e exclui o proprio
-		task.wait(0.8)
-		self.model:Destroy()
+		task.delay(0.8, function()
+			if self.model and self.model.Parent then
+				self.model:Destroy()
+			end
+		end)
+		return
+	end
 
+	self.humanoid.Died:Connect(function()
+		self.isAlive.Value = false
+		task.wait(0.8)
+		if self.model and self.model.Parent then
+			self.model:Destroy()
+		end
 	end)
 end
 
