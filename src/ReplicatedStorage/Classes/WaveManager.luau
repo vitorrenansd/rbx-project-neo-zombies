@@ -112,11 +112,14 @@ function WaveManager:startWaveLoop()
 	local SFX = game.ReplicatedStorage.Sounds.SFX
 	local hasWon = false
 
+	local zombiesAlive = self.map:WaitForChild("ZombiesAlive")
+	local updateWaveHUD = ReplicatedStorage:WaitForChild("UpdateWaveHUD")
+	local updateZombieHUD = ReplicatedStorage:WaitForChild("updateZombieHUD")
+
 	while true do
 		task.wait(0.2)
 
-		local remainingZombies = #(self.map:WaitForChild("ZombiesAlive"):GetChildren())
-		local updateZombieHUD = ReplicatedStorage:WaitForChild("updateZombieHUD")
+		local remainingZombies = #zombiesAlive:GetChildren()
 		updateZombieHUD:FireAllClients(remainingZombies)
 
 		if self.currentWave.Value >= self.maxWaves.Value and remainingZombies == 0 and not hasWon then
@@ -125,7 +128,8 @@ function WaveManager:startWaveLoop()
 			local minutes = self.player.leaderstats.Minutes.Value
 			sound:playSound(SFX.winSound, 2, false)
 			self.player:Kick("You won, but at what cost? You lost like " .. minutes .. " minutes here. GO TOUCH GRASS!!!")
-		elseif remainingZombies == 0 and self.canStartNewWave and not hasWon then				-- Inicia nova wave
+		elseif remainingZombies == 0 and self.canStartNewWave and not hasWon then
+			-- Inicia nova wave
 			sound:playSound(SFX.newWave, 0.4, false)
 			self:createNewWave()
 		end
